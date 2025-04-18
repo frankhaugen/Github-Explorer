@@ -17,21 +17,24 @@ else
         @foreach (var repo in repositories)
         {
             <li>
-    using Microsoft.JSInterop;
                 <strong>@repo.Name</strong>
                 <ul>
                     <li>Latest Release: @repo.LatestRelease?.TagName ?? "N/A"</li>
                     <li>Latest Tag: @repo.LatestTag?.Name ?? "N/A"</li>
                     <li>Available Workflows:
                         <ul>
-                            @foreach (var workflow in repo.Workflows)
+                            @foreach (var workflow in repo?.Workflows ?? Enumerable.Empty<Workflow>())
                             {
                                 <li>@workflow.Name</li>
+                            }
+                            @if (repo?.Workflows == null || !repo.Workflows.Any())
+                            {
+                                <li>No workflows available</li>
                             }
                         </ul>
                     </li>
                     <li>
-                        <button @onclick="() => OpenDiffInNewTab(repo.LatestRelease?.TagName, repo.LatestTag?.Name)">View Diff</button>
+                        <button @onclick="() => OpenDiffInNewTab(repo?.LatestRelease?.TagName, repo?.LatestTag?.Name)">View Diff</button>
                     </li>
                 </ul>
             </li>
@@ -53,7 +56,7 @@ else
         repositories = await GitHubService.GetRepositoriesAsync();
     }
 
-    private void OpenDiffInNewTab(string tag1, string tag2)
+    private void OpenDiffInNewTab(string? tag1, string? tag2)
     {
         if (!string.IsNullOrEmpty(tag1) && !string.IsNullOrEmpty(tag2))
         {

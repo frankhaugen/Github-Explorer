@@ -6,15 +6,20 @@ using System.Net.Http.Headers;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorComponents()
+builder.Services
+    .AddRazorComponents()
     .AddInteractiveServerComponents();
-    
+
+builder.Logging
+    .AddConsole()
+    .AddDebug();
+
 builder.Services.AddHttpClient("GitHub", client =>
 {
     client.BaseAddress = new Uri("https://api.github.com/");
     client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("GithubExplorer", "1.0"));
     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
-    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", builder.Configuration["GitHub:Token"]);
+    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", builder.Configuration["GitHubToken"]);
 });
 
 builder.Services.AddScoped<GitHubService>();
@@ -30,7 +35,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 
 app.UseAntiforgery();
 
