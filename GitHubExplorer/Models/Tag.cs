@@ -1,4 +1,4 @@
-namespace GithubExplorer.Models
+namespace GitHubExplorer.Models
 {
     public class Tag
     {

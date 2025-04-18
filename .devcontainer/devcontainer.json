@@ -11,7 +11,8 @@
         "extensions": [
             "ms-dotnettools.csdevkit",
             "eamodio.gitlens",
-            "patcx.vscode-nuget-gallery"
+            "patcx.vscode-nuget-gallery",
+            "nikiforovall.sync-namespaces-dotnet"
         ]
       }
     },

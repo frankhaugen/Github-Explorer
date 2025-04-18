@@ -1,4 +1,7 @@
 using GitHubExplorer.Components;
+using GitHubExplorer.Services;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using System.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
