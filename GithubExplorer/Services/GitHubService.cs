@@ -12,9 +12,10 @@ namespace GithubExplorer.Services
         public string Owner { get; set; }
         public string RepositoryName { get; set; }
 
-        public GitHubService(HttpClient httpClient)
+        public GitHubService(HttpClient httpClient, string token)
         {
             _httpClient = httpClient;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
 
         public async Task<List<Repository>> GetRepositoriesAsync()
