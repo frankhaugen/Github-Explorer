@@ -1,8 +1,8 @@
+using GithubExplorer.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OAuth;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.HttpOverrides;
 using System.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,7 +28,7 @@ builder.Services.AddAuthentication(options =>
 {
     options.ClientId = builder.Configuration["GitHub:ClientId"];
     options.ClientSecret = builder.Configuration["GitHub:ClientSecret"];
-    options.CallbackPath = new PathString("/signin-github");
+    options.CallbackPath = new PathString("/auth/github/callback");
 
     options.AuthorizationEndpoint = "https://github.com/login/oauth/authorize";
     options.TokenEndpoint = "https://github.com/login/oauth/access_token";
@@ -77,6 +77,11 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedHost | ForwardedHeaders.XForwardedProto
+});
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");

@@ -73,4 +73,9 @@ namespace GithubExplorer.Services
             return JsonSerializer.Deserialize<ReleaseDiff>(content);
         }
     }
+
+    public class WorkflowsResponse
+    {
+        public List<Workflow> Workflows { get; set; }
+    }
 }

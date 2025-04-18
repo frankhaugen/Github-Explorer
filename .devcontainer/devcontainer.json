@@ -1,0 +1,19 @@
+{
+    "name": "C# (.NET)",
+    "image": "mcr.microsoft.com/devcontainers/dotnet:9.0",
+    "features": {
+      "dotnet": "latest",
+      "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+      "ghcr.io/dotnet/aspire-devcontainer-feature/dotnetaspire": "latest"
+    },
+    "customizations": {
+      "vscode": {
+        "extensions": [
+            "ms-dotnettools.csdevkit",
+            "eamodio.gitlens",
+            "patcx.vscode-nuget-gallery"
+        ]
+      }
+    },
+    "postCreateCommand": "dotnet workload install wasm-tools"
+  }

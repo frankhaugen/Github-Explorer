@@ -1,7 +1,9 @@
 @page "/"
 @using GithubExplorer.Services
 @using GithubExplorer.Models
+@using Microsoft.JSInterop
 @inject GitHubService GitHubService
+@inject IJSRuntime JSRuntime
 
 <h3>GitHub Repositories</h3>
 
@@ -15,6 +17,7 @@ else
         @foreach (var repo in repositories)
         {
             <li>
+    using Microsoft.JSInterop;
                 <strong>@repo.Name</strong>
                 <ul>
                     <li>Latest Release: @repo.LatestRelease?.TagName ?? "N/A"</li>
@@ -34,6 +37,12 @@ else
             </li>
         }
     </ul>
+
+    <script>
+        function openInNewTab(url) {
+            window.open(url, '_blank');
+        }
+    </script>
 }
 
 @code {
@@ -49,7 +58,7 @@ else
         if (!string.IsNullOrEmpty(tag1) && !string.IsNullOrEmpty(tag2))
         {
             var url = $"https://github.com/{GitHubService.Owner}/{GitHubService.RepositoryName}/compare/{tag1}...{tag2}";
-            JSRuntime.InvokeVoidAsync("open", url, "_blank");
+            JSRuntime.InvokeVoidAsync("openInNewTab", url);
         }
     }
 }
